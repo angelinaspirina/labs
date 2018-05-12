@@ -1,5 +1,6 @@
 package humanResources;
 
+//todo добавь метод getSize() - fixed
 public class nodeList<E>
 {
     private Node first;
@@ -39,10 +40,9 @@ public class nodeList<E>
         first = new Node(null,last);
     }
 
-    public int length() {
+    public int getSize() {
         return this.size;
     }
-
 
     public void add(E e) {
         if (last.item == null) {
@@ -139,17 +139,5 @@ public class nodeList<E>
             a[size] = null;
 
         return a;
-    }
-
-    @Override
-    public String toString () {
-        Node tempLink = first.next;
-        StringBuilder str = new StringBuilder("List with ");
-        str.append(size).append(" elements\n");
-        for (int i = 0; i < size; i++) {
-            str.append(tempLink.item).append("\n");
-            tempLink = tempLink.next;
-        }
-        return str.toString();
     }
 }

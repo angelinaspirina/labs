@@ -4,19 +4,22 @@ public class Project implements EmployeeGroup
 {
     private String name;
     private nodeList<Employee> employees;
-    private int size;
+    //todo это в топку, список сам контролирует свой размер - fixed
     public Project(String name)
     {
         this.name = name;
         employees = new nodeList<Employee>();
-        size = 0;
     }
 
     public Project(String name, Employee[] employees)
     {
         this.name = name;
         this.employees = new nodeList<Employee>(employees);
-        size = this.employees.length();
+    }
+
+    public int getSize()
+    {
+        return employees.getSize();
     }
 
     @Override
@@ -33,14 +36,13 @@ public class Project implements EmployeeGroup
     public void add(Employee employee)
     {
         employees.add(employee);
-        size++;
     }
 
     @Override
     public Employee getEmployee(String fName, String sName)
     {
         Employee employee;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < getSize(); i++)
         {
             employee = employees.getItem(i);
             if(employee.getFirstName().equals(fName) && employee.getSecondName().equals(sName))
@@ -55,28 +57,20 @@ public class Project implements EmployeeGroup
     public void remove(String fName, String sName)
     {
         Employee employee;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < getSize(); i++)
         {
             employee = employees.getItem(i);
             if(employee.getFirstName().equals(fName) && employee.getSecondName().equals(sName))
             {
                 employees.remove(i);
-                size--;
             }
         }
     }
 
+    //todo вызывай метод удаления в списке - fixed
     @Override
-    public void remove(Employee employee)
-    {
-        for(int i = 0; i < size; i++)
-        {
-            if(employee.equals(employees.getItem(i)))
-            {
-                employees.remove(employee);
-                size--;
-            }
-        }
+    public void remove(Employee employee) {
+        employees.remove(employee);
     }
 
     @Override
@@ -85,7 +79,7 @@ public class Project implements EmployeeGroup
         double maxSalary = 0;
         int bestIndex = 0;
         Employee employee;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < getSize(); i++)
         {
             employee = employees.getItem(i);
             if(employee.getSalary() > maxSalary)
@@ -100,7 +94,7 @@ public class Project implements EmployeeGroup
     @Override
     public Employee[] getEmployees()
     {
-        Employee[] employees = new Employee[size];
+        Employee[] employees = new Employee[getSize()];
         this.employees.toArray(employees);
         return employees;
     }
@@ -109,8 +103,8 @@ public class Project implements EmployeeGroup
     public Employee[] getSortedEmployeesBySalary() {
         Employee swapBuf;
         Employee[] tempSortedArray = getEmployees();
-        for (int j = 0; j < size; j++) {
-            for (int k = 0; k < size - 1 - j; k++) {
+        for (int j = 0; j < getSize(); j++) {
+            for (int k = 0; k < getSize() - 1 - j; k++) {
                 if (tempSortedArray[k].getSalary() > tempSortedArray[k + 1].getSalary()) {
                     swapBuf = tempSortedArray[k];
                     tempSortedArray[k] = tempSortedArray[k + 1];
@@ -123,7 +117,7 @@ public class Project implements EmployeeGroup
 
     @Override
     public int amountEmployees() {
-        return size;
+        return getSize();
     }
 
     @Override
@@ -131,7 +125,7 @@ public class Project implements EmployeeGroup
     {
         int amount = 0;
         Employee employee;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < getSize(); i++) {
             employee = employees.getItem(i);
             if (employee.getJobTitle().equals(jTitle)) {
                 amount++;
@@ -144,7 +138,7 @@ public class Project implements EmployeeGroup
     public boolean hasEmployee(String fName, String sName)
     {
         Employee employee;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < getSize(); i++)
         {
             employee = employees.getItem(i);
             if(employee.getFirstName().equals(fName) && employee.getSecondName().equals(sName))
@@ -160,8 +154,8 @@ public class Project implements EmployeeGroup
     {
         Employee employee;
         StringBuilder str = new StringBuilder("");
-        str.append("Project ").append(name).append(": ").append(size).append("\n");
-        for(int i = 0; i < size; i++)
+        str.append("Project ").append(name).append(": ").append(getSize()).append("\n");
+        for(int i = 0; i < getSize(); i++)
         {
             employee = employees.getItem(i);
             str.append(employee.toString()).append("\n");
@@ -185,12 +179,12 @@ public class Project implements EmployeeGroup
             Project project = (Project) obj;
             Employee thisEmployee, objEmployee;
             int checkSize = 0;
-            if(this.name.equals(project.getName()) && this.size == project.amountEmployees())
+            if(this.name.equals(project.getName()) && this.getSize() == project.amountEmployees())
             {
-                for(int i = 0; i < size; i++)
+                for(int i = 0; i < getSize(); i++)
                 {
                     thisEmployee = employees.getItem(i);
-                    for (int j = 0; j < size; j++)
+                    for (int j = 0; j < getSize(); j++)
                     {
                         objEmployee = project.getEmployees()[j];
                         if(thisEmployee.equals(objEmployee))
@@ -200,7 +194,7 @@ public class Project implements EmployeeGroup
                         }
                     }
                 }
-                if(checkSize == size) {
+                if(checkSize == getSize()) {
                     return true;
                 }
                 else {
@@ -214,14 +208,13 @@ public class Project implements EmployeeGroup
 
     @Override
     public int hashCode() {
-        int hashCode = 17, hashName, hashSize;
-        hashName = 37 * hashCode + (this.name.equals("") ? 0 : this.name.hashCode());
-        hashSize = 37 * hashCode + this.size;
-        hashCode = hashName ^ hashSize;
-        for(int i = 0; i < size; i++)
+        int result = 0;
+        result = this.name.isEmpty() ? 0 : this.name.hashCode();
+        result ^= this.getSize() == 0 ? 0 : Integer.hashCode(this.getSize());
+        for(int i = 0; i < getSize(); i++)
         {
-            hashCode ^= employees.getItem(i).hashCode();
+            result ^= employees.getItem(i).hashCode();
         }
-        return hashCode;
+        return result;
     }
 }

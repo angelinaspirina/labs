@@ -23,6 +23,9 @@ public abstract class Employee {
         this.jobTitle = jobTitle;
         this.salary = salary;
     }
+
+    public abstract int countBusinessTravellers();
+
     public String getFirstName()
     {
         return firstName;
@@ -90,18 +93,14 @@ public abstract class Employee {
         }
     }
 
+    //todo перемудрила - fixed
     @Override
     public int hashCode() {
-        int result = 17, resultfN = 17, resultsN = 17, resultsal = 17, resultjT = 17;
-        resultfN = 37 * result + (this.firstName.equals("") ? 0 : this.firstName.hashCode());
-        resultsN = 37 * result + (this.secondName.equals("") ? 0 : this.secondName.hashCode());
-        resultjT = 37 * result + (this.jobTitle == JobTitlesEnum.NONE ? 0 : this.jobTitle.hashCode());
-        long longBits = Double.doubleToLongBits(this.salary);
-        resultsal = 37 * result + (int)(longBits - (longBits >>> 32));
-        result = resultfN ^ resultsN;
-        result ^= resultjT;
-        result ^= resultsal;
-
+        int result = 0;
+        result = this.firstName.isEmpty() ? 0 : this.firstName.hashCode();
+        result ^= this.secondName.isEmpty() ? 0 : this.secondName.hashCode();
+        result ^= this.jobTitle == JobTitlesEnum.NONE ? 0 : this.jobTitle.hashCode();
+        result ^= this.salary == 0 ? 0 : Double.hashCode(this.salary);
         return result;
     }
 }

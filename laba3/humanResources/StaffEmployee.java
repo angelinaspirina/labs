@@ -34,6 +34,17 @@ public class StaffEmployee extends Employee implements BusinessTraveller
         businessTravelNodeList = new cycleNodeList<>(businessTravels);
     }
 
+    public int getSize()
+    {
+        return businessTravelNodeList.getSize();
+    }
+
+    @Override
+    public int countBusinessTravellers()
+    {
+        return businessTravelNodeList.getSize();
+    }
+
     @Override
     double getPremy()
     {
@@ -54,56 +65,55 @@ public class StaffEmployee extends Employee implements BusinessTraveller
 
     @Override
     public BusinessTravel[] arrayOfBusinessTravel() {
-        BusinessTravel[] businessTravels = new BusinessTravel[businessTravelNodeList.length()];
+        BusinessTravel[] businessTravels = new BusinessTravel[businessTravelNodeList.getSize()];
         businessTravelNodeList.toArray(businessTravels);
         return businessTravels;
     }
 
+    //todo не дублируй код из Employee - fixed
+    //todo командировки тоже используются в этих трех методах - fixed
     @Override
     public String toString()
     {
+
         StringBuilder str = new StringBuilder("");
-        if (!(secondName.equals(""))) str.append(secondName).append(" ");
-        if (!(firstName.equals(""))) str.append(firstName).append(", ");
-        if (jobTitle != JobTitlesEnum.NONE) str.append(jobTitle).append(", ");
-        if (salary != 0) str.append(salary).append("p., ");
+        str.append(super.toString());
         str.append(premy).append("p. ");
+        str.append("Командировки: ");
+        for (int i = 0; i < getSize(); i++)
+        {
+            str.append(businessTravelNodeList.getItem(i).toString());
+        }
         return str.toString();
     }
 
     @Override
     public boolean equals(Object obj)
     {
-        if(obj == this)
-            return true;
-
-        if(obj == null)
-            return false;
-
-        if(!(getClass() == obj.getClass()))
-            return false;
-        else
+        StaffEmployee sEmployeeObj = (StaffEmployee)obj;
+        BusinessTravel[] busTravListObj = sEmployeeObj.arrayOfBusinessTravel();
+        boolean checkHas = true;
+        if (super.equals(obj))//todo ПРимер вызова метода суперкласса - fixed
         {
-            PartTimeEmployee temp = (PartTimeEmployee) obj;
-            if(temp.getFirstName().equals(this.firstName) && temp.getSecondName().equals(this.secondName) && temp.getJobTitle() == this.jobTitle && temp.getSalary() == this.salary)
-                return true;
-            else
-                return false;
+            for (int i = 0; i < getSize(); i++) {
+                if (!businessTravelNodeList.contains(busTravListObj[i]))
+                {
+                    checkHas = false;
+                }
+            }
         }
+        return checkHas;
     }
 
     @Override
     public int hashCode() {
-        int result = 17, resultfN = 17, resultsN = 17, resultsal = 17, resultjT = 17;
-        resultfN = 37 * result + (this.firstName.equals("") ? 0 : this.firstName.hashCode());
-        resultsN = 37 * result + (this.secondName.equals("") ? 0 : this.secondName.hashCode());
-        resultjT = 37 * result + (this.jobTitle == JobTitlesEnum.NONE ? 0 : this.jobTitle.hashCode());
-        long longBits = Double.doubleToLongBits(this.salary);
-        resultsal = 37 * result + (int)(longBits - (longBits >>> 32));
-        result = resultfN ^ resultsN;
-        result ^= resultjT;
-        result ^= resultsal;
-
+        int result = 0;
+        result = super.hashCode();
+        result ^= this.premy == 0 ? 0 : Double.hashCode(this.premy);
+        for (int i = 0; i < getSize(); i++)
+        {
+            result ^= businessTravelNodeList.getItem(i).hashCode();
+        }
         return result;
     }
 }

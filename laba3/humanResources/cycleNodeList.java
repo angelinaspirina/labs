@@ -41,7 +41,7 @@ public class cycleNodeList<E> {
         first = new Node(null,last);
     }
 
-    public int length() {
+    public int getSize() {
         return this.size;
     }
 
@@ -77,7 +77,7 @@ public class cycleNodeList<E> {
         Node tempLink = first;
         for (int i = 0; i < id; i++) {
             tempLink = tempLink.next;
-        }   // в tempLink попадает Node перед удаляемым
+        }
         if (id == size-1) {
             tempLink.next = first;
         } else {
@@ -126,17 +126,4 @@ public class cycleNodeList<E> {
 
         return a;
     }
-
-    @Override
-    public String toString () {
-        Node tempLink = first.next;
-        StringBuilder str = new StringBuilder("List with ");
-        str.append(size).append(" elements\n");
-        for (int i = 0; i < size; i++) {
-            str.append(tempLink.item).append("\n");
-            tempLink = tempLink.next;
-        }
-        return str.toString();
-    }
-
 }

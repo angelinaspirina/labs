@@ -74,17 +74,11 @@ public class BusinessTravel
 
     @Override
     public int hashCode() {
-        int result = 17, resultNC, resultD, resultCD, resultSC;
-        resultNC = 37 * result + (this.nameCity.equals("") ? 0 : this.nameCity.hashCode());
-        resultD = 37 * result + (this.description.equals("") ? 0 : this.description.hashCode());
-        long longBitsCD = Double.doubleToLongBits(this.days);
-        resultCD = 37 * result + (int)(longBitsCD - (longBitsCD >>> 32));
-        long longBitsSC = Double.doubleToLongBits(this.compensation);
-        resultSC = 37 * result + (int)(longBitsSC - (longBitsSC >>> 32));
-        result = resultNC ^ resultD;
-        result ^= resultCD;
-        result ^= resultSC;
-
+        int result = 0;
+        result = this.nameCity.isEmpty() ? 0 : this.nameCity.hashCode();
+        result ^= this.description.isEmpty() ? 0 : this.description.hashCode();
+        result ^= this.days == 0 ? 0 : Integer.hashCode(this.days);
+        result ^= this.compensation == 0 ? 0 : Double.hashCode(this.compensation);
         return result;
     }
 }

@@ -11,8 +11,6 @@ public class DepartmentsManager implements GroupsManager{
         this(DEFAULT_NAME, DEFAULT_CAPACITY);
     }
 
-
-
     public DepartmentsManager(String name) {
         this(name, DEFAULT_CAPACITY);
     }

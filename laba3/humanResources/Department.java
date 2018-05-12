@@ -213,9 +213,11 @@ public class Department implements EmployeeGroup
         int timeSize = 0;
         for (int i = 0; i < size; i++)
         {
-            if (this.employees[i] instanceof BusinessTraveller)
+            if (this.employees[i] instanceof BusinessTraveller && this.employees[i].countBusinessTravellers() > 0)
             {
+                //todo нужно проверить колличество командировок, в которое он съездил - fixed
                 employees[timeSize++] = this.employees[i];
+
             }
         }
         Employee[] employeesReturn = new Employee[timeSize];
@@ -282,14 +284,13 @@ public class Department implements EmployeeGroup
 
     @Override
     public int hashCode() {
-        int hashCode = 17, hashName, hashSize;
-        hashName = 37 * hashCode + (this.name.equals("") ? 0 : this.name.hashCode());
-        hashSize = 37 * hashCode + this.size;
-        hashCode = hashName ^ hashSize;
+        int result = 0;
+        result = this.name.isEmpty() ? 0 : this.name.hashCode();
+        result ^= this.size == 0 ? 0 : Integer.hashCode(this.size);
         for(int i = 0; i < size; i++)
         {
-            hashCode ^= employees[i].hashCode();
+            result ^= employees[i].hashCode();
         }
-        return hashCode;
+        return result;
     }
 }

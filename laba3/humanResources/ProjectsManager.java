@@ -1,33 +1,35 @@
 package humanResources;
 
+//todo замечания аналогично Project - fixed
 public class ProjectsManager implements GroupsManager
 {
     private nodeList<EmployeeGroup> groupNodeList;
-    private int size;
 
     public ProjectsManager()
     {
         groupNodeList = new nodeList<EmployeeGroup>();
-        size = 0;
     }
 
     public ProjectsManager(EmployeeGroup[] employeeGroups)
     {
         groupNodeList = new nodeList<EmployeeGroup>(employeeGroups);
-        size = groupNodeList.length();
+    }
+
+    public int getSize()
+    {
+        return groupNodeList.getSize();
     }
 
     @Override
     public void add(EmployeeGroup employeeGroup)
     {
         groupNodeList.add(employeeGroup);
-        size++;
     }
 
     @Override
     public int amountGroups()
     {
-        return size;
+        return getSize();
     }
 
     @Override
@@ -35,14 +37,13 @@ public class ProjectsManager implements GroupsManager
     {
         EmployeeGroup group;
         int count = 0;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < getSize(); i++)
         {
             group = groupNodeList.getItem(i);
             if(group.equals(employeeGroup))
             {
                 groupNodeList.remove(i);
                 count++;
-                size--;
             }
         }
         return count;
@@ -52,13 +53,12 @@ public class ProjectsManager implements GroupsManager
     public boolean remove(String name)
     {
         EmployeeGroup group;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < getSize(); i++)
         {
             group = groupNodeList.getItem(i);
             if(group.getName().equals(name))
             {
                 groupNodeList.remove(i);
-                size--;
                 return true;
             }
         }
@@ -69,7 +69,7 @@ public class ProjectsManager implements GroupsManager
     public EmployeeGroup getGroup(String name)
     {
         EmployeeGroup group;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < getSize(); i++)
         {
             group = groupNodeList.getItem(i);
             if(group.getName().equals(name))
@@ -83,7 +83,7 @@ public class ProjectsManager implements GroupsManager
     @Override
     public EmployeeGroup[] getEmployeeGroups()
     {
-        EmployeeGroup[] employeeGroups = new EmployeeGroup[size];
+        EmployeeGroup[] employeeGroups = new EmployeeGroup[getSize()];
         groupNodeList.toArray(employeeGroups);
         return employeeGroups;
     }
@@ -95,7 +95,7 @@ public class ProjectsManager implements GroupsManager
     {
         int amount = 0;
         EmployeeGroup employeeGroup;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < getSize(); i++)
         {
             employeeGroup = groupNodeList.getItem(i);
             amount += employeeGroup.amountEmployees();
@@ -108,7 +108,7 @@ public class ProjectsManager implements GroupsManager
     {
         int amount = 0;
         EmployeeGroup employeeGroup;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < getSize(); i++)
         {
             employeeGroup = groupNodeList.getItem(i);
             amount += employeeGroup.amountEmployeesByJobTitle(title);
@@ -122,7 +122,7 @@ public class ProjectsManager implements GroupsManager
         double maxSalary = 0;
         Employee employee, bestEmployee = null;
         EmployeeGroup employeeGroup;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < getSize(); i++) {
             employeeGroup = groupNodeList.getItem(i);
             employee = employeeGroup.bestEmployee();
             if (employee.getSalary() > maxSalary) {
@@ -137,7 +137,7 @@ public class ProjectsManager implements GroupsManager
     public EmployeeGroup getGroupOfAnEmployee(String fName, String sName)
     {
         EmployeeGroup employeeGroup;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < getSize(); i++) {
             employeeGroup = groupNodeList.getItem(i);
             if(employeeGroup.hasEmployee(fName,sName))
             {
