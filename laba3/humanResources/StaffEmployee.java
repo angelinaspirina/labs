@@ -70,8 +70,6 @@ public class StaffEmployee extends Employee implements BusinessTraveller
         return businessTravels;
     }
 
-    //todo не дублируй код из Employee - fixed
-    //todo командировки тоже используются в этих трех методах - fixed
     @Override
     public String toString()
     {
@@ -93,7 +91,7 @@ public class StaffEmployee extends Employee implements BusinessTraveller
         StaffEmployee sEmployeeObj = (StaffEmployee)obj;
         BusinessTravel[] busTravListObj = sEmployeeObj.arrayOfBusinessTravel();
         boolean checkHas = true;
-        if (super.equals(obj))//todo ПРимер вызова метода суперкласса - fixed
+        if (super.equals(obj))
         {
             for (int i = 0; i < getSize(); i++) {
                 if (!businessTravelNodeList.contains(busTravListObj[i]))

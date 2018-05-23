@@ -1,6 +1,5 @@
 package humanResources;
 
-//todo замечания аналогично Project - fixed
 public class ProjectsManager implements GroupsManager
 {
     private nodeList<EmployeeGroup> groupNodeList;
@@ -141,7 +140,7 @@ public class ProjectsManager implements GroupsManager
             employeeGroup = groupNodeList.getItem(i);
             if(employeeGroup.hasEmployee(fName,sName))
             {
-                return groupNodeList.getItem(i);
+                return employeeGroup;
             }
         }
         return null;

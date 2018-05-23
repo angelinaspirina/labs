@@ -4,7 +4,6 @@ public class Project implements EmployeeGroup
 {
     private String name;
     private nodeList<Employee> employees;
-    //todo это в топку, список сам контролирует свой размер - fixed
     public Project(String name)
     {
         this.name = name;
@@ -67,7 +66,6 @@ public class Project implements EmployeeGroup
         }
     }
 
-    //todo вызывай метод удаления в списке - fixed
     @Override
     public void remove(Employee employee) {
         employees.remove(employee);

@@ -1,6 +1,5 @@
 package humanResources;
 
-//todo добавь метод getSize() - fixed
 public class nodeList<E>
 {
     private Node first;

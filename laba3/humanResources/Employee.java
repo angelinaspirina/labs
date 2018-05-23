@@ -93,10 +93,9 @@ public abstract class Employee {
         }
     }
 
-    //todo перемудрила - fixed
     @Override
     public int hashCode() {
-        int result = 0;
+        int result = 31;
         result = this.firstName.isEmpty() ? 0 : this.firstName.hashCode();
         result ^= this.secondName.isEmpty() ? 0 : this.secondName.hashCode();
         result ^= this.jobTitle == JobTitlesEnum.NONE ? 0 : this.jobTitle.hashCode();

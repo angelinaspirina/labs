@@ -215,7 +215,6 @@ public class Department implements EmployeeGroup
         {
             if (this.employees[i] instanceof BusinessTraveller && this.employees[i].countBusinessTravellers() > 0)
             {
-                //todo нужно проверить колличество командировок, в которое он съездил - fixed
                 employees[timeSize++] = this.employees[i];
 
             }
